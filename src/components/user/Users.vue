@@ -68,7 +68,7 @@
               content="设置用户角色"
               placement="top-start"
               :enterable="false"
-              hide-after=1500
+              :hide-after="1500"
             >
               <el-button
                 type="info"
