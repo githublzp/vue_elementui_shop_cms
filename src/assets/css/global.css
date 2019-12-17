@@ -1,7 +1,31 @@
 /* 全局样式表 */
 
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+.el-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+.el-card {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+}
+.el-table {
+		margin-top: 15px;
+		font-size: 13px;
+}
+/* 解决table表头和表身错位问题 */
+.el-table--border th.gutter:last-of-type {
+	display: block!important;
+}
+/* 改变输入框反馈图标颜色 */
+.el-icon-circle-check:before {
+	color: #67C23A;
+}
+.el-pagination {
+	margin-top: 15px;
 }
