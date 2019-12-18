@@ -11,23 +11,12 @@
       <!-- 搜索添加区 -->
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input
-            placeholder="请输入内容"
-            v-model="queryInfo.query"
-            clearable
-            @clear="getUserList"
-          >
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="getUserList"
-            ></el-button>
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
+            <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="isAddUser = true"
-            >添加用户</el-button
-          >
+          <el-button type="primary" @click="isAddUser = true">添加用户</el-button>
         </el-col>
       </el-row>
       <!-- 用户列表区 -->
@@ -68,15 +57,14 @@
               content="设置用户角色"
               placement="top-start"
               :enterable="false"
-              hide-after=1500
+              :hide-after="1500"
             >
               <el-button
                 type="info"
                 icon="el-icon-setting"
                 size="mini"
-                @click="set(scope.row.id)"
-              >
-              </el-button>
+                @click="showRoleToUser(scope.row)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -91,15 +79,9 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         background
-      >
-      </el-pagination>
+      ></el-pagination>
       <!-- 添加用户弹出框 -->
-      <el-dialog
-        title="添加新用户"
-        :visible.sync="isAddUser"
-        width="30%"
-        :close-on-click-modal="false"
-      >
+      <el-dialog title="添加新用户" :visible.sync="isAddUser" width="30%" :close-on-click-modal="false">
         <el-form
           :model="addUserForm"
           :rules="formRules"
@@ -115,10 +97,7 @@
             <el-input type="password" v-model="addUserForm.password"></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
-            <el-input
-              type="password"
-              v-model="addUserForm.checkPass"
-            ></el-input>
+            <el-input type="password" v-model="addUserForm.checkPass"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
             <el-input v-model="addUserForm.email"></el-input>
@@ -130,7 +109,9 @@
         </el-form>
         <span slot="footer">
           <div class="adduser">
-            <div><el-button size="mini" type="info" @click="cancleAdd">取 消</el-button></div>
+            <div>
+              <el-button size="mini" type="info" @click="cancleAdd">取 消</el-button>
+            </div>
             <div>
               <el-button size="mini" type="warning" @click="resetForm">重 置</el-button>
               <el-button size="mini" type="primary" @click="addUser">确 定</el-button>
@@ -166,12 +147,42 @@
         </el-form>
         <span slot="footer">
           <div class="edituser">
-            <div><el-button type="info" size="mini" @click="removeUInfo">取 消</el-button></div>
+            <div>
+              <el-button type="info" size="mini" @click="removeUInfo">取 消</el-button>
+            </div>
             <div>
               <el-button type="warning" size="mini" @click="resetEditForm">还 原</el-button>
               <el-button type="primary" size="mini" @click="editUser">确 定</el-button>
             </div>
           </div>
+        </span>
+      </el-dialog>
+      <!-- 设置角色弹出框 -->
+      <el-dialog
+        title="设置角色"
+        :visible.sync="isSetRole"
+        width="30%"
+        :close-on-click-modal="false"
+        @close="closeSetRoleDia"
+      >
+        <div>
+          <p>当前用户：{{uInfoSetRole.username}}</p>
+          <p>当前角色：{{uInfoSetRole.role_name}}</p>
+          <p>
+            可选角色：
+            <el-select v-model="selectedRoleId" placeholder="请选择">
+              <el-option
+                v-for="item in roleList"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </p>
+        </div>
+        <span slot="footer">
+          <el-button type="info" size="mini" @click="cancleSetRole">取 消</el-button>
+          <el-button type="primary" size="mini" @click="setRoleToUser">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -263,7 +274,15 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { validator: validateNum, trigger: 'blur' }
         ]
-      }
+      },
+      // 控制设置角色对话框的开关
+      isSetRole: false,
+      // 展现在角色设置对话框上的用户信息对象
+      uInfoSetRole: {},
+      // 角色列表
+      roleList: [],
+      // 已选中的角色
+      selectedRoleId: ''
     }
   },
   created () {
@@ -388,6 +407,36 @@ export default {
       }).catch(() => {
         this.$message.info('已取消删除')
       })
+    },
+    // 打开角色对话框
+    async showRoleToUser (info) {
+      this.uInfoSetRole = info
+      const { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取角色列表失败！')
+      }
+      this.roleList = res.data
+      this.isSetRole = true
+    },
+    // 为用户设置角色
+    async setRoleToUser () {
+      if (!this.selectedRoleId) return this.$message.info('请先选择角色')
+      const { data: res } = await this.$http.put(`users/${this.uInfoSetRole.id}/role`, { rid: this.selectedRoleId })
+      if (res.meta.status !== 200) return this.$message.error('设置角色失败！')
+      this.getUserList()
+      this.isSetRole = false
+      this.$message.success('设置角色成功')
+    },
+    // 取消设置角色
+    cancleSetRole () {
+      this.closeSetRoleDia()
+      this.isSetRole = false
+      this.$message.info('设置角色取消')
+    },
+    // 关闭设置角色对话框
+    closeSetRoleDia () {
+      this.selectedRoleId = ''
+      this.uInfoSetRole = {}
     }
   }
 }
