@@ -30,3 +30,6 @@ body,
 .el-pagination {
 	margin-top: 15px;
 }
+.el-cascader-menu__list {
+	height: 300px !important;
+}

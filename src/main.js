@@ -6,7 +6,10 @@ import './plugins/element.js'
 import './assets/css/global.css'
 // 导入阿里矢量库字体图标样式表
 import './assets/fonts/iconfont.css'
+// 导入treetable插件
+import TreeTable from 'vue-table-with-tree-grid'
 import axios from 'axios'
+
 // 设置发送网络请求的根路径
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 // axios请求拦截
@@ -16,9 +19,13 @@ axios.interceptors.request.use(config => {
   config.headers.Authorization = window.sessionStorage.getItem('token')
   return config
 })
+// 将axios挂载到vue原型对象的$http属性上，全局可用
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
+
+// 注册为全局组件，全局范围内可用
+Vue.component('tree-table', TreeTable)
 
 new Vue({
   router,
