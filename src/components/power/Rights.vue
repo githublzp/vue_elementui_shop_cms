@@ -8,7 +8,7 @@
     </el-breadcrumb>
     <!-- 卡片视图区 -->
     <el-card>
-      <el-table :data="rightList" border stripe>
+      <el-table :data="rightList" border stripe height="550">
         <el-table-column type="index" label="序号"></el-table-column>
         <el-table-column prop="authName" label="权限名称"></el-table-column>
         <el-table-column prop="path" label="路径"></el-table-column>

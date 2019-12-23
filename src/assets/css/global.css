@@ -31,5 +31,14 @@ body,
 	margin-top: 15px;
 }
 .el-cascader-menu__list {
-	height: 300px !important;
+	height: 300px;
+}
+.el-step__title {
+font-size: 13px;
+}
+.ql-editor {
+ min-height: 350px;
+}
+.el-scrollbar__wrap {
+	overflow-x: hidden;
 }

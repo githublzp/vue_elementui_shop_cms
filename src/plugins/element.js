@@ -31,7 +31,14 @@ import {
   Cascader,
   Alert,
   Tabs,
-  TabPane
+  TabPane,
+  Backtop,
+  Steps,
+  Step,
+  CheckboxGroup,
+  Checkbox,
+  Upload,
+  Scrollbar
 } from 'element-ui'
 
 Vue.use(Button)
@@ -64,6 +71,13 @@ Vue.use(Cascader)
 Vue.use(Alert)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.use(Backtop)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(CheckboxGroup)
+Vue.use(Checkbox)
+Vue.use(Upload)
+Vue.use(Scrollbar)
 
 // 将Message组件挂载到vue原型对象上，这样在每个vue实例中都可以通过this来使用Message组件
 Vue.prototype.$message = Message

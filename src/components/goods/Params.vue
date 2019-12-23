@@ -42,7 +42,6 @@
             <el-table-column type="expand" label="#">
               <template slot-scope="scope">
                 <el-tag
-                  class="dyn_tag"
                   :key="tag"
                   v-for="(tag, ind) in scope.row.attr_vals"
                   closable
@@ -98,7 +97,7 @@
               >添加{{nameVal}}</el-button>
             </el-col>
           </el-row>
-          <el-table :data="dataList" size="medium" max-height="340" border stripe>
+          <el-table :data="dataList" size="medium" height="340" border stripe>
             <!-- 展开列 -->
             <el-table-column type="expand" label="#">
               <template slot-scope="scope">
@@ -194,12 +193,7 @@
         >
           <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="120px">
             <el-form-item :label="nameVal+'名称'" prop="attr_name">
-              <el-input
-                v-model="editForm.attr_name"
-                size="small"
-                @keyup.enter.native="enterBlur($event)"
-                @blur="edit"
-              ></el-input>
+              <el-input v-model="editForm.attr_name" size="small" @keyup.enter.native="edit"></el-input>
             </el-form-item>
           </el-form>
           <span slot="footer">
@@ -260,7 +254,8 @@ export default {
       // 修改表单数据对象
       editForm: {
         attr_id: '',
-        attr_name: ''
+        attr_name: '',
+        attr_vals: ''
       },
       // 修改动态参数、静态属性共用表单验证规则
       editFormRules: {
@@ -369,6 +364,7 @@ export default {
     showEditDia (row) {
       this.editForm.attr_name = row.attr_name
       this.editForm.attr_id = row.attr_id
+      this.editForm.attr_vals = row.attr_vals.join(',')
       this.isEditDia = true
     },
     /* ------------------------------ 所有关闭方法 ------------------------------ */
@@ -380,13 +376,15 @@ export default {
     },
     // 关闭修改动态参数、静态属性对话框
     closeEditDia () {
-      this.$refs.editFormRef.resetFields()
-      this.editForm.attr_name = ''
-      this.editForm.attr_id = ''
+      this.$refs.editFormRef.clearValidate()
     },
     /* ------------------------------ 所有改变方法 ------------------------------ */
     // 监听级联选择器值的变化
     catIdChanged () {
+      if (this.cILL === 0) {
+        this.selectedCatIdList = this.dataList = []
+        return false
+      }
       if (this.cILL !== 3) {
         this.selectedCatIdList = this.dataList = []
         return this.$message.warning('只允许为第三级分类设置相关参数')
@@ -488,7 +486,8 @@ export default {
         if (!valid) return false
         const { data: res } = await this.$http.put(`categories/${this.thirdGraCatId}/attributes/${this.editForm.attr_id}`, {
           attr_name: this.editForm.attr_name,
-          attr_sel: this.activeTabName
+          attr_sel: this.activeTabName,
+          attr_vals: this.editForm.attr_vals
         })
         if (res.meta.status !== 200) return this.$message.error(`${this.nameVal}名称修改失败！`)
         this.getAllCatParas()
@@ -508,13 +507,7 @@ export default {
   width: 50%;
 }
 .el-tag {
-  margin: 0 5px;
-}
-.el-form-item .el-tag:nth-child(1) {
-  margin-left: 0;
-}
-.dyn_tag {
-  margin: 0 10px;
+  margin-right: 10px;
 }
 .button-new-tag {
   height: 32px;
