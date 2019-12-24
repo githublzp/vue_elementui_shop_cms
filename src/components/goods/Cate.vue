@@ -21,13 +21,14 @@
         :expand-type="false"
         border
         :show-row-hover="false"
+        max-height="550"
       >
         <!-- isOk模板 -->
         <template slot="isOk" slot-scope="scope">
           <i class="el-icon-error" v-if="scope.row.cat_deleted === true"></i>
           <i class="el-icon-success" v-else></i>
         </template>
-        <!-- order模板 -->
+        <!-- order分类级别模板 -->
         <template slot="level" slot-scope="scope">
           <el-tag size="mini" type="primary" v-if="scope.row.cat_level === 0">一级</el-tag>
           <el-tag size="mini" type="success" v-else-if="scope.row.cat_level === 1">二级</el-tag>

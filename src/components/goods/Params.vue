@@ -97,7 +97,7 @@
               >添加{{nameVal}}</el-button>
             </el-col>
           </el-row>
-          <el-table :data="dataList" size="medium" height="340" border stripe>
+          <el-table :data="dataList" size="medium" max-height="340" border stripe>
             <!-- 展开列 -->
             <el-table-column type="expand" label="#">
               <template slot-scope="scope">

@@ -41,6 +41,9 @@ import {
   Scrollbar
 } from 'element-ui'
 
+import TimelineItem from './timeline-item/index'
+import Timeline from './timeline/index'
+
 Vue.use(Button)
 Vue.use(Form)
 Vue.use(FormItem)
@@ -78,6 +81,8 @@ Vue.use(CheckboxGroup)
 Vue.use(Checkbox)
 Vue.use(Upload)
 Vue.use(Scrollbar)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 
 // 将Message组件挂载到vue原型对象上，这样在每个vue实例中都可以通过this来使用Message组件
 Vue.prototype.$message = Message

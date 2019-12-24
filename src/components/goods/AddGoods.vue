@@ -116,15 +116,13 @@
           </el-tab-pane>
           <!-- tab5 -->
           <el-tab-pane label="商品内容" name="4" style="height: 450px;">
-            <el-scrollbar style="height: 100%;">
-              <!-- 富文本编辑器组件 -->
-              <quill-editor
-                v-model="addForm.goods_introduce"
-                :options="editorOption"
-                style="width: 80%;"
-              ></quill-editor>
-              <el-button type="primary" @click="add" style="margin-top: 15px;">点击添加</el-button>
-            </el-scrollbar>
+            <!-- 富文本编辑器组件 -->
+            <quill-editor
+              v-model="addForm.goods_introduce"
+              :options="editorOption"
+              style="width: 80%;"
+            ></quill-editor>
+            <el-button type="primary" @click="add" style="margin-top: 15px;">点击添加</el-button>
           </el-tab-pane>
         </el-tabs>
       </el-form>
@@ -396,9 +394,6 @@ export default {
 }
 .el-tabs {
   margin-top: 15px;
-}
-.el-card__body {
-  max-height: 699px !important;
 }
 .el-checkbox {
   margin: 0 10px 0 0 !important;
