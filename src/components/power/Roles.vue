@@ -13,7 +13,7 @@
         <el-button type="primary" size="medium" @click="showAddRole">添加角色</el-button>
       </el-row>
       <!-- 角色列表区 -->
-      <el-table :data="roleList" border stripe>
+      <el-table :data="roleList" border stripe row-key="id">
         <!-- 展开行 -->
         <el-table-column type="expand" label="#">
           <template slot-scope="scope">

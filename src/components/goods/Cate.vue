@@ -323,4 +323,7 @@ export default {
 .el-cascader {
   width: 100%;
 }
+.el-cascader-menu__list {
+  height: 300px;
+}
 </style>

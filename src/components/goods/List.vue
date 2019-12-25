@@ -20,7 +20,7 @@
         </el-col>
       </el-row>
       <!-- 表格区 -->
-      <el-table :data="goodsList" border stripe max-height="450">
+      <el-table :data="goodsList" border stripe>
         <el-table-column type="index" label="序号" width="50"></el-table-column>
         <el-table-column prop="goods_name" label="商品名称"></el-table-column>
         <el-table-column prop="goods_price" label="商品价格(元)" width="100"></el-table-column>
@@ -122,4 +122,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.el-cascader-menu__list {
+  height: 300px;
+}
 </style>

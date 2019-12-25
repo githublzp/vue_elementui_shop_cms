@@ -16,7 +16,7 @@
         </el-col>
       </el-row>
       <!-- 表格区 -->
-      <el-table :data="orderList" border stripe max-height="450">
+      <el-table :data="orderList" border stripe>
         <el-table-column type="index" label="序号" width="50"></el-table-column>
         <el-table-column prop="order_number" label="订单编号"></el-table-column>
         <el-table-column prop="order_price" label="订单价格(元)" width="100"></el-table-column>

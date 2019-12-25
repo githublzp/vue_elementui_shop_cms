@@ -506,6 +506,9 @@ export default {
 .el-cascader {
   width: 50%;
 }
+.el-cascader-menu__list {
+  height: 300px;
+}
 .el-tag {
   margin-right: 10px;
 }

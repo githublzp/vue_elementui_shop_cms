@@ -19,6 +19,7 @@ body,
 .el-table {
 		margin-top: 15px;
 		font-size: 13px;
+		max-height: 400px;
 }
 /* 解决table表头和表身错位问题 */
 .el-table--border th.gutter:last-of-type {
@@ -31,9 +32,6 @@ body,
 .el-pagination {
 	margin-top: 15px;
 }
-.el-cascader-menu__list {
-	height: 300px;
-}
 .el-step__title {
 font-size: 13px;
 }
@@ -43,4 +41,7 @@ font-size: 13px;
 }
 .el-scrollbar__wrap {
 	overflow-x: hidden;
+}
+.el-cascader-menu__list {
+	height: 300px!important;
 }

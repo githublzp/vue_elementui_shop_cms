@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/Login'
-import Home from '../components/Home'
-import Welcome from '../components/Welcome'
-import Users from '../components/user/Users'
-import Rights from '../components/power/Rights'
-import Roles from '../components/power/Roles'
-import Cate from '../components/goods/Cate'
-import Params from '../components/goods/Params'
-import List from '../components/goods/List'
-import AddGoods from '../components/goods/AddGoods'
-import Order from '../components/order/Order'
-import Report from '../components/report/Report'
+
+// 路由懒加载，不同webpackChunkName下的组件会被封装到不同js文件中，当一个组件被访问,
+// 同一个webpackChunkName下的其他组件都会加载好等待访问，而其他组件此时不会加载
+const Login = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Login.vue')
+const Home = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Home.vue')
+const Welcome = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Welcome.vue')
+const Users = () => import(/* webpackChunkName: "user" */ '../components/user/Users.vue')
+const Rights = () => import(/* webpackChunkName: "power" */ '../components/power/Rights.vue')
+const Roles = () => import(/* webpackChunkName: "power" */ '../components/power/Roles.vue')
+const Cate = () => import(/* webpackChunkName: "goods" */ '../components/goods/Cate.vue')
+const Params = () => import(/* webpackChunkName: "goods" */ '../components/goods/Params.vue')
+const List = () => import(/* webpackChunkName: "goods" */ '../components/goods/List.vue')
+const AddGoods = () => import(/* webpackChunkName: "goods" */ '../components/goods/AddGoods.vue')
+const Order = () => import(/* webpackChunkName: "order" */ '../components/order/Order.vue')
+const Report = () => import(/* webpackChunkName: "report" */ '../components/report/Report.vue')
 
 Vue.use(VueRouter)
 

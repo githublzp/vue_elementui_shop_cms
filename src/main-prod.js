@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import './plugins/element.js'
 // 导入自定义的全局样式表
-import './assets/css/global.css'
 // 导入阿里矢量库字体图标样式表
 import './assets/fonts/iconfont.css'
 // 导入treetable插件
@@ -11,20 +8,29 @@ import TreeTable from 'vue-table-with-tree-grid'
 import axios from 'axios'
 // 导入富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'
-// 导入富文本编辑器必需的样式
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+// 为了减小打包后项目的体积，其样式在index.html首页通过cdn引用
+import router from './router'
+import './assets/css/global.css'
+// 导入nprogress的js和样式，加载产生进度条效果
+import NProgress from 'nprogress'
 
 // 设置发送网络请求的根路径
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 // axios请求拦截
 //   通过axios请求拦截器添加token，保证请求拥有获取数据的权限
 axios.interceptors.request.use(config => {
+  // 发送请求就开启加载进度条
+  NProgress.start()
   // 为请求头对象添加token验证的Authorization字段
   config.headers.Authorization = window.sessionStorage.getItem('token')
   return config
 })
+axios.interceptors.response.use(config => {
+  // 收到响应就关闭加载进度条
+  NProgress.done()
+  return config
+})
+
 // 将axios挂载到vue原型对象的$http属性上，全局可用
 Vue.prototype.$http = axios
 
